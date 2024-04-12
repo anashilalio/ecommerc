@@ -6,13 +6,13 @@ import { ContextProvider } from './context/ContextProvider';
 import { Tooltip } from 'react-tooltip';
 import {Customers , Orders , Calendar , Employees , Stacked , Pyramid , Ecommerce , Kanban 
 ,Area,Line , Bar , Pie , Financial , ColorPicker , ColorMapping , Editor} from "./pages";
-import {Navbar , Footer , Sidebar , ThemeSet} from './components'
+import {Navbar , Footer , Sidebar , ThemeSet} from './components';
+import { useStateContext } from "./context/ContextProvider";
 function App()  {
-  const activeMenu = true;
+  const {activeMenu } = useStateContext();
   return (
     <>
     {/*  */}
-    <ContextProvider>
        <div className="flex relative dark:bg-main-dark-bg">
        <div className="fixed right-6 bottom-4">
         
@@ -22,34 +22,26 @@ function App()  {
           style={{backgroundColor:"blue"}}
           />
         </button>
-        {/*  */}
-        <Tooltip anchorSelect=".my-anchor-element" place="top" effect="float" >hello</Tooltip>
         
-        </div>
-        {activeMenu ?(
-        <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white 
-        ">
+          <Tooltip anchorSelect=".my-anchor-element" place="top" effect="float" >hello</Tooltip>
+          
+          </div>
+          {activeMenu ? (
+            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white" >              <Sidebar />
+            </div>
+          ) : <div className="t-72 absolute w-0 hiddern sidebar bg-white" style={{ zIndex:"-100"}}>
           <Sidebar />
-        </div>  
-
-        ):(
-<div className="w-0 bg-transparent dark:bg-secondary-dark-bg">
-          <Sidebar />
-        </div>
-        )
-        
-      }
-      <div className={
-        activeMenu ?
-      " bg-white min-h-screen md:ml-72 w-full" : 
-      (' bg-white min-h-screen flex-1 w-full')  
-    }>
-        <div className="fixed md:static ">
-          <Navbar />
-        </div>
-      </div>
-        <Routes>
-              {/* dashboard */}
+        </div>}
+          
+        <div className={activeMenu ? 'dark:bg-main-dark-bg bg-main-bg min-h-screen w-full' 
+                           : 'bg-main-bg dark:bg-main-dark-bg w-full min-h-screen'} >
+            <div  className="fixed  dark:bg-main-dark-bg navbar w-screen">
+              <Navbar />
+            </div>
+          </div>
+          
+          <Routes>
+            {/* dashboard */}
             <Route path="/" element={<Ecommerce/>}/>
             <Route path="/ecommerce" element={<Ecommerce/>}/>
             {/* page */}
@@ -78,7 +70,6 @@ function App()  {
        </div>
        
         
-        </ContextProvider>
     </>
   );
 }
